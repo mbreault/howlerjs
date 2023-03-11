@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello, World with Howler.js!</title>
+  <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
+</head>
+<body>
+  <h1>Hello, World with Howler.js!</h1>
+  <button onclick="playSound()">Play Sound</button>
+  <script>
+    var sound = new Howl({
+      src: ['data:audio/mp3;base64,//uQRAAAAAAAA...'], // data URL for a silent MP3 file
+      format: ['mp3'],
+      volume: 0.5,
+      onplay: function() {
+        console.log('Playing!');
+      },
+      onend: function() {
+        console.log('Finished!');
+      }
+    });
+
+    function playSound() {
+      var context = new AudioContext();
+      var oscillator = context.createOscillator();
+      oscillator.connect(context.destination);
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(440, context.currentTime);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 1);
+      sound.play();
+    }
+  </script>
+</body>
+</html>
